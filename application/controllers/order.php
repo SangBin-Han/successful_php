@@ -12,6 +12,8 @@
 
     function __construct() {
       parent::__construct();
+
+      $this->load->model('order_m');
     }
 
     public function index() {
@@ -30,24 +32,15 @@
       $data['oilqty'] = $_POST['oilqty'];
       $data['sparkqty'] = $_POST['sparkqty'];
       $data['find'] = $_POST['find'];
+      $data['address'] = preg_replace('/\t|\R/',' ',$_POST['address']);
+      $data['document_root'] = $_SERVER['DOCUMENT_ROOT'];
+      $data['date'] = date('H:i, jS F Y');
+      
+      // get total qty, amount
+      $total = $this->order_m->get_total($data['tireqty'], $data['oilqty'], $data['sparkqty']);
 
-      $data['totalqty'] = 0;
-      $data['totalqty'] = $data['tireqty'] + $data['oilqty'] + $data['sparkqty'];
-
-      $data['totalamount'] = 0.00;
-
-      define('TIREPRICE', 100);
-      define('OILPRICE', 10);
-      define('SPARKPRICE', 4);
-
-      $data['totalamount'] = $data['tireqty'] * TIREPRICE
-                           + $data['oilqty'] * OILPRICE
-                           + $data['sparkqty'] * SPARKPRICE;
-
-      $taxrate = 0.10; // 판매세율
-      $data['totalamount'] = $data['totalamount'] * (1 + $taxrate);
-
-
+      $data = array_merge($data, $total);
+      
       $this->load->view("order/processorder.php", $data);
     } // end processorder()
 
