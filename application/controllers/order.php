@@ -44,5 +44,18 @@
       $this->load->view("order/processorder.php", $data);
     } // end processorder()
 
+    // forwarding freight.php
+    public function freight() {
+      $this->load->view("order/freight.php");
+    } // end freight()
+
+    // forwarding vieworders.php
+    public function vieworders() {
+      // create short variable names
+      $data['document_root'] = $_SERVER['DOCUMENT_ROOT'];
+      
+      $this->load->view("order/vieworders.php", $data);
+    }
+
   } // end Order
 ?>

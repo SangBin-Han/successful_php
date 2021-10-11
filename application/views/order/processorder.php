@@ -35,7 +35,7 @@
       $outputstring = $date."\t".$tireqty." tires\t".$oilqty." oil\t".$sparkqty." spark plugs\t\$".$totalamount."\t".$address."\n";
 
       //  데이터를 추가하기 위해 파일을 연다.
-      @$fp = fopen("$document_root/application/views/order/orders.txt", 'ab');
+      @$fp = fopen("$document_root/application/views/order/orders.txt", 'ab'); // a - 추가 b - 바이너리
 
       if (!$fp) {
         echo "<p><strong> Your order could not be processed at this time.
