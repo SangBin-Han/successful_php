@@ -23,9 +23,11 @@
              Please try again later.</strong></>";
         exit;
       }
-
+      // feof = File End Of File
       while (!feof($fp)) {
-        $order = fgets($fp);
+        // fgets() = 한 번에 한 줄씩
+        //          \n을 만나거나 EOF를 만날 때까지 데이터를 읽는다.
+        $order = fgets($fp); 
         echo htmlspecialchars($order)."<br/>";
       }
 

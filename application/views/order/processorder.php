@@ -37,13 +37,14 @@
       //  데이터를 추가하기 위해 파일을 연다.
       @$fp = fopen("$document_root/application/views/order/orders.txt", 'ab'); // a - 추가 b - 바이너리
 
+      flock($fp, LOCK_EX);
+
       if (!$fp) {
         echo "<p><strong> Your order could not be processed at this time.
               Please try again later.</strong></p>";
         exit;
       }
 
-      flock($fp, LOCK_EX);
       fwrite($fp, $outputstring, strlen($outputstring));
       flock($fp, LOCK_UN);
       fclose($fp);
