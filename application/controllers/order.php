@@ -4,6 +4,7 @@
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-11
+  | 최종 수정일 : 2021-10-17
   | 용도 : [성공적인웹프로그래밍:PHP와 MySQL] 책 참조
   |        주문 관련 처리하는 페이지
   ========================================================*/
@@ -55,7 +56,15 @@
       $data['document_root'] = $_SERVER['DOCUMENT_ROOT'];
       
       $this->load->view("order/vieworders.php", $data);
-    }
+    } // end vieworders.php
+
+    // forwarding vieworders_v2.php
+    public function vieworders_v2() {
+      // create short variable names
+      $data['document_root'] = $_SERVER['DOCUMENT_ROOT'];
+      
+      $this->load->view("order/vieworders_v2.php", $data);
+    } // end vieworders_v2.php
 
   } // end Order
 ?>
