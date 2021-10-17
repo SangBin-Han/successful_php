@@ -2,37 +2,32 @@
 /* 
 | 작성자 : sb
 | 작성일 : 2021-10-11
+| 최종 수정일 : 2021-10-17
 | 용도 : 주문 파일을 읽는 인터페이스
 */
+  // 짧은 이름의 변수를 생성한다.
   $document_root = $_SERVER['DOCUMENT_ROOT'];
 ?>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bob's Auto Parts - Order Results</title>
+    <title>Han's Auto Parts - Order Results</title>
   </head>
   <body>
-    <h1>Bob's Auto Parts</h1>
+    <h1>Han's Auto Parts</h1>
     <h2>Customer Orders</h2>
     <?php 
-      @$fp = fopen("$document_root/application/views/order/orders.txt", 'rb'); // r - 읽기 b - 바이너리
-      flock($fp, LOCK_SH); // lock file for reading 
+      $orders = file("$document_root/application/views/order/orders.txt");
 
-      if (!$fp) {
-        echo "<p><strong>No orders pending.<br/>
-             Please try again later.</strong></>";
-        exit;
-      }
-      // feof = File End Of File
-      while (!feof($fp)) {
-        // fgets() = 한 번에 한 줄씩
-        //          \n을 만나거나 EOF를 만날 때까지 데이터를 읽는다.
-        $order = fgets($fp); 
-        echo htmlspecialchars($order)."<br/>";
+      $number_of_orders = count($orders);
+      if ($number_of_orders == 0) {
+        echo "<p><strong>No orders pending.<br />
+              Please try again later.</strong></p>";
       }
 
-      flock($fp, LOCK_UN); // release read lock
-      fclose($fp);
+      for ($i=0; $i < $number_of_orders; $i++) {
+        echo $orders[$i]."<br />";
+      }
     ?>
   </body>
 </html>
