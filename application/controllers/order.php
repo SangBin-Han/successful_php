@@ -58,13 +58,5 @@
       $this->load->view("order/vieworders.php", $data);
     } // end vieworders.php
 
-    // forwarding vieworders_v2.php
-    public function vieworders_v2() {
-      // create short variable names
-      $data['document_root'] = $_SERVER['DOCUMENT_ROOT'];
-      
-      $this->load->view("order/vieworders_v2.php", $data);
-    } // end vieworders_v2.php
-
   } // end Order
 ?>
