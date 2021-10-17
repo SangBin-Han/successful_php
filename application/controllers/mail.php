@@ -1,6 +1,5 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-17
@@ -28,14 +27,19 @@
 
       // 정해진 값을 설정한다.
       $toaddress = "sk8er0922@google.com";
-
       $subject = "Feedback from web site";
-
       $mailcontent = "Customer name : ".str_replace("\r\n", "", $name)."\n".
                 "Customer email : ".str_replace("\r\n", "", $email)."\n".
                 "Customer comments : \n".str_replace("\r\n", "", $feedback)."\n";
-
       $formaddress = "From : webserver@example.com";
+
+      // 이메일 검증
+      $eamil_array = explode('@', $email);
+      if (strtolower($email_array[1]) == "bigcustomer.com") {
+        $toaddress = "sk8er0922@gamil.com";
+      } else {
+        $toaddress = "feedback@example.com";
+      }
 
       // mail() 함수를 호출하여 이메일을 보낸다.
       mail($toaddress, $subject, $mailcontent, $formaddress);
@@ -46,7 +50,6 @@
 
       $this->load->view("mail/processfeedback", $data);
     } // end processfeedback()
-
 
   } // end Mail
 ?>
