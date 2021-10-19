@@ -17,13 +17,13 @@
     }
 
     public function index() {
-      $this->main();
+      $this->home();
     }
 
-    // forwarding main.php
-    public function main() {
-      $this->load->view("main");
-    } // end main()
+    // forwarding home.php
+    public function home() {
+      $this->load->view("home");
+    } // end home()
 
     // forwarding hans_front_page.php
     public function hans_front_page() {
