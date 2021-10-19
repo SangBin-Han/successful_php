@@ -4,6 +4,7 @@
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-17
+  | 최종 수정일 : 2021-10-19
   | 용도 : [성공적인웹프로그래밍:PHP와 MySQL] 책 참조
   |        메인 페이지
   ========================================================*/
@@ -16,13 +17,19 @@
     }
 
     public function index() {
-      $this->hans_front_page();
+      $this->main();
     }
+
+    // forwarding main.php
+    public function main() {
+      $this->load->view("main");
+    } // end main()
 
     // forwarding hans_front_page.php
     public function hans_front_page() {
       $this->load->view("hans_front_page");
     } // end hans_front_page()
+
 
 
   } // end My_controller
