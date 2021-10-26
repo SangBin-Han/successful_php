@@ -4,6 +4,7 @@
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-25
+  | 최종 수정일 : 2021-10-26
   | 용도 : book 관련 db 연결 페이지
   ========================================================*/
   class Books_m extends CI_Model{
@@ -31,6 +32,8 @@
       $stmt->store_result();
 
       $stmt->bind_result($isbn, $author, $title, $price);
+      $stmt->free_result();
+      $db->close();
 
       return $stmt;
     }
