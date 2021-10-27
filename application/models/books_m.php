@@ -15,13 +15,22 @@
 
     }
 
-    public function get_bookList($searchtype, $searchterm) {
+    // db 연결
+    public function connect_db () {
       $db = new mysqli('127.0.0.1', 'root', '140600', 'books');
 
       if (mysqli_connect_errno()) {
         echo '<p>Error: Could not connect to database.<br />
         Please try again later.</p>';
       }
+
+      return $db;
+    } // end connect_db()
+
+    // 책 목록 불러오기
+    public function get_bookList($searchtype, $searchterm) {
+      $db = $this->connect_db();
+
       $query = "SELECT ISBN, Author, Title, Price 
                 FROM Books 
                 WHERE $searchtype = ?";
@@ -33,10 +42,28 @@
 
       $stmt->bind_result($isbn, $author, $title, $price);
       $stmt->free_result();
+      $data = array();
+
       $db->close();
 
-      return $stmt;
-    }
+      $data["bookList"] = $stmt;
+
+      return $data;
+    } // end get_bookList()
+
+    // db에 책 입력
+    public function insert_book ($data) {
+      $db = $this->connect_db();
+
+      $query = "INSERT INTO Books VALUES (?, ?, ?, ?)";
+      $stmt = $db->prepare($query);
+      $stmt->bind_param('sssd', $data["isbn"], $data["author"], $data["title"], $data["price"]);
+      $stmt->execute();
+
+      $db->close();
+
+      return $stmt->affected_rows;
+    } // end insert_book()
 
 
   } // end Order_m

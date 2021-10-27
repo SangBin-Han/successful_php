@@ -4,6 +4,7 @@
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-25
+  | 최종 수정일 : 2021-10-27
   | 용도 : book 관련 페이지
   ========================================================*/
   class Books extends CI_Controller {
@@ -51,6 +52,38 @@
 
       $this->load->view("results.php", $data);
     } // end results()
+
+    // newbook.html forwarding
+    public function insert_book () {
+
+      $this->load->view("newbook.html");
+    } // end insert_book()
+    
+    // db에 새로운 책 추가
+    public function exec_insert_book() {
+      $data = array();
+
+      if (!isset($_POST["ISBN"]) || !isset($_POST["Author"]) || !isset($_POST["Title"]) || !isset($_POST["Price"])) {
+        echo "<p>You have not entered all the required details.<br />
+              Please go back and try again.</p>";
+        exit;
+      }
+
+      // 짧은 이름의 변수를 생성한다.
+      $data["isbn"] = $_POST["ISBN"];
+      $data["author"] = $_POST["Author"];
+      $data["title"] = $_POST["Title"];
+      $data["price"] = $_POST["Price"];
+
+      $result = $this->books_m->insert_book($data);
+
+      if ($result > 0) {
+        echo "<p>Book inserted into the database.</p>";
+      } else {
+        echo "<p>An error has occurred.<br/>
+              The item was not added.</p>";
+      }
+    } // end exec_insert_book()
 
   } // end Books
 ?>
