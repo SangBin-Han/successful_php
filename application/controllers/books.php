@@ -4,7 +4,7 @@
   /* ========================================================
   | 작성자 : sb
   | 작성일 : 2021-10-25
-  | 최종 수정일 : 2021-10-27
+  | 최종 수정일 : 2021-10-28
   | 용도 : book 관련 페이지
   ========================================================*/
   class Books extends CI_Controller {
@@ -84,6 +84,35 @@
               The item was not added.</p>";
       }
     } // end exec_insert_book()
+
+    // forwarding results_pdo.php
+    public function results_pdo() {
+      // 짧은 이름의 변수를 생성한다.
+      $searchtype = $_POST["searchtype"];
+      $searchterm = trim($_POST["searchterm"]);
+
+      if (!$searchtype || !$searchterm) {
+        echo "<p>You have not entered search details.<br />
+        Please go back and try again.</p>";
+        exit;
+      }
+
+      // searchtype이 올바른지 확인한다.
+      switch ($searchtype) {
+        case "Title":
+        case "Author":
+        case "ISBN":
+          break;
+        default:
+          echo "<p>That is not a valid search type. <br />
+          Please go back and try again.</p>";
+          exit;
+      }
+
+      $data = $this->books_m->get_bookList_with_PDO($searchtype, $searchterm);
+
+      $this->load->view("results_pdo.php", $data);
+    } // end results_pdo()
 
   } // end Books
 ?>
