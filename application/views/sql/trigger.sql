@@ -1,0 +1,13 @@
+# 트리거 사용 예
+
+DELIMITER //
+
+CREATE TRIGGER Delete_Order_Items
+BEFORE DELETE ON Orders FOR EACH ROW
+
+BEGIN 
+  DELETE FROM Order_Items WHERE OLD.OrderID = OrderID;
+END
+//
+
+DELIMITER ; 
