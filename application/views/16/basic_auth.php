@@ -1,0 +1,31 @@
+<?php
+if (!isset($_SERVER['PHP_AUTH_USER'])) && 
+  (!isset($_SERVER["PHP_AUTH_PW"])) &&
+  (substr($_SERVER["HTTP_AUTHORIZATION"], 0, 6) == "Basic") {
+    list($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]) =
+      explode(":", base64_decode(substr($_SERVER["HTTP_AUTHORIZATION"], 6)));
+}
+
+// 다음의 if문을 데이터베이스 쿼리 등으로 교체할 수 있다.
+if (($_SERVER["PHP_AUTH_USER"] != 'user') || 
+  ($_SERVER["PHP_AUTH_PW"] != 'pass')) {
+    // 방문자가 아직 인증 정보를 입력하지 않았거나 또는
+    // 사용자 이름과 비밀번호가 잘못되었다.
+    header('WWW-Authenticate: Basic realm="Realm-Name"');
+    header('HTTP/1.0 401 Unauthorized');
+} else {
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Secret Page</title>
+</head>
+<body>
+  <?php
+
+  echo '<h1>Here it is!</h1>
+  <p>I bet you are glad you can see this secret page.</p>';
+}
+?>
+</body>
+</html>
