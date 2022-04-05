@@ -48,4 +48,11 @@
           <span class="menutext">About</span>
         </a>
       </div>
+
+      <div class="menuitem">
+        <a href="Test.php">
+          <img src="s-logo.gif" alt="" height="20" width="20" />
+          <span class="menutext">Test</span>
+        </a>
+      </div>
     </nav>

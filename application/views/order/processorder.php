@@ -1,3 +1,11 @@
+<?php 
+/* 
+| 작성자 : sb
+| 최종 수정일 : 2021-10-23
+| 용도 : 주문 결과 페이지
+*/
+require_once("application/controller/file_exceptions.php");
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -35,44 +43,26 @@
       $outputstring = $date."\t".$tireqty." tires\t".$oilqty." oil\t".$sparkqty." spark plugs\t\$".$totalamount."\t".$address."\n";
 
       //  데이터를 추가하기 위해 파일을 연다.
-      @$fp = fopen("$document_root/application/views/order/orders.txt", 'ab'); // a - 추가 b - 바이너리
+      try {
+        if (!($fp = @fopen("$document_root/application/views/order/orders.txt", 'ab'))) { // a - 추가 b - 바이너리
+          throw new fileOpenException();
+        }
+        if (!flock($fp, LOCK_EX)) {
+          throw new fileWriteException();
+        }
+        if (!fwrite($fp, $outputstring, strlen($outputstring))) {
+          throw new fileWriteException();
+        }
 
-      flock($fp, LOCK_EX);
-
-      if (!$fp) {
-        echo "<p><strong> Your order could not be processed at this time.
+        flock($fp, LOCK_UN);
+        fclose($fp);
+        echo "<p>Order written.</p>";
+      } catch (fileOpenException $foe) {
+        echo "<p><strong>Orders file could not be opened.<br />
+              Please contact our webmaster for help.</strong></p>";
+      } catch (Exception $e) {
+        echo "<p><strong>Your order could not be processed at this time.
               Please try again later.</strong></p>";
-        exit;
-      }
-
-      fwrite($fp, $outputstring, strlen($outputstring));
-      flock($fp, LOCK_UN);
-      fclose($fp);
-
-      echo "<p>Order written.</p>";
-
-      // isset, empty test
-      echo 'isset($tireqty): '.isset($tireqty).'<br/>';
-      echo 'isset($nothere): '.isset($nothere).'<br/>';
-      echo 'empty($tireqty): '.empty($tireqty).'<br/>';
-      echo 'empty($nothere): '.empty($nothere).'<br/>';
-
-      switch($find) {
-        case "a":
-          echo "<p>Regular customer.</p>";
-          break;
-        case "b":
-          echo "<p>Customer referred by TV advert.</p>";
-          break;
-        case "c":
-          echo "<p>Customer referred by phone directory.</p>";
-          break;
-        case "d":
-          echo "<p>Customer referred by word of mouth.</p>";
-          break;
-        default :
-          echo "<p>Wo do not know how this customer found us.</p>";
-          break;
       }
     ?>
   </body>
